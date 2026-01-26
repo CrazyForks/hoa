@@ -1,3 +1,8 @@
+## v0.3.4 / 2026-01-26
+
+- feat: use tsdown instead of tsup
+- fix: update devDependencies
+
 ## v0.3.3 / 2025-12-03
 
 - fix: types improvements
