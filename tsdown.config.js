@@ -30,9 +30,6 @@ export default defineConfig([
     unbundle: true,
     outDir: 'dist/cjs',
     target: 'es2020',
-    outExtension () {
-      return { js: '.js' }
-    },
     esbuildOptions (options) {
       options.drop = ['debugger']
       options.legalComments = 'none'

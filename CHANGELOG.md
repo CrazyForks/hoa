@@ -1,3 +1,7 @@
+## v0.3.5 / 2026-02-03
+
+- hotfix: package.json exports
+
 ## v0.3.4 / 2026-01-26
 
 - feat: use tsdown instead of tsup
