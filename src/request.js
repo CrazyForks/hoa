@@ -1,5 +1,22 @@
 import { parseSearchParamsToQuery, stringifyQueryToString } from './lib/utils.js'
 
+// Headers to check in order of precedence (based on request-ip library)
+const IP_HEADERS = [
+  'x-client-ip',
+  'x-forwarded-for',
+  'cf-connecting-ip',
+  'do-connecting-ip',
+  'fastly-client-ip',
+  'true-client-ip',
+  'x-real-ip',
+  'x-cluster-client-ip',
+  'x-forwarded',
+  'forwarded-for',
+  'forwarded',
+  'x-appengine-user-ip',
+  'cf-pseudo-ipv4'
+]
+
 /**
  * @typedef {Object} ReqJSON
  * @property {string} method - Request method
@@ -448,24 +465,7 @@ export default class HoaRequest {
    * @public
    */
   get ip () {
-    // Headers to check in order of precedence (based on request-ip library)
-    const headers = [
-      'x-client-ip',
-      'x-forwarded-for',
-      'cf-connecting-ip',
-      'do-connecting-ip',
-      'fastly-client-ip',
-      'true-client-ip',
-      'x-real-ip',
-      'x-cluster-client-ip',
-      'x-forwarded',
-      'forwarded-for',
-      'forwarded',
-      'x-appengine-user-ip',
-      'cf-pseudo-ipv4'
-    ]
-
-    for (const header of headers) {
+    for (const header of IP_HEADERS) {
       const value = this.get(header)
       if (value) {
         // For X-Forwarded-For and similar headers that may contain multiple IPs,
