@@ -1,5 +1,7 @@
 import { statusTextMapping, statusEmptyMapping, statusRedirectMapping, commonTypeMapping, encodeUrl } from './lib/utils.js'
 
+const encoder = new TextEncoder()
+
 /**
  * @typedef {Object} ResJSON
  * @property {number} status - Response status code
@@ -396,14 +398,14 @@ export default class HoaResponse {
     ) {
       return null
     }
-    if (typeof this.body === 'string') return new TextEncoder().encode(this.body).length
+    if (typeof this.body === 'string') return encoder.encode(this.body).length
     if (this.body instanceof Blob) return this.body.size
     if (this.body instanceof ArrayBuffer) return this.body.byteLength
     if (ArrayBuffer.isView(this.body)) return this.body.byteLength
-    if (this.body instanceof URLSearchParams) return new TextEncoder().encode(this.body.toString()).length
+    if (this.body instanceof URLSearchParams) return encoder.encode(this.body.toString()).length
 
     // json
-    return new TextEncoder().encode(JSON.stringify(this.body)).length
+    return encoder.encode(JSON.stringify(this.body)).length
   }
 
   /**
