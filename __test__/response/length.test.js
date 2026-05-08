@@ -14,16 +14,22 @@ describe('res.length', () => {
       expect(ctx.res.length).toBe(0)
     })
 
-    it('should return 0 for invalid Content-Length header', () => {
+    it('should return null for invalid Content-Length header', () => {
       const app = new Hoa()
       const request = new Request('https://example.com/')
       const ctx = app.createContext(request)
 
       ctx.res.set('Content-Length', 'invalid')
-      expect(ctx.res.length).toBe(0)
+      expect(ctx.res.length).toBeNull()
+
+      ctx.res.set('Content-Length', '12abc')
+      expect(ctx.res.length).toBeNull()
 
       ctx.res.set('Content-Length', '')
-      expect(ctx.res.length).toBe(0)
+      expect(ctx.res.length).toBeNull()
+
+      ctx.res.set('Content-Length', '99999999999999999999')
+      expect(ctx.res.length).toBeNull()
     })
 
     it('should calculate length for string body', () => {

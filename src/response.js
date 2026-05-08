@@ -380,8 +380,12 @@ export default class HoaResponse {
    * @public
    */
   get length () {
-    if (this.has('Content-Length')) {
-      return Number.parseInt(this.get('Content-Length'), 10) || 0
+    const len = this.get('Content-Length')
+    if (len != null) {
+      if (!/^\d+$/.test(len)) return null
+      const n = Number(len)
+      if (!Number.isSafeInteger(n)) return null
+      return n
     }
 
     if (
