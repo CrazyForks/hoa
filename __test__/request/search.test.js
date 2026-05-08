@@ -55,6 +55,22 @@ describe('req.search', () => {
     expect(Object.keys(ctx.req.query)).toHaveLength(0)
   })
 
+  it('should clear search when set to null or undefined', () => {
+    const app = new Hoa()
+
+    const ctx1 = app.createContext(new Request('https://example.com/store/shoes?page=1'))
+    ctx1.req.search = null
+    expect(ctx1.req.search).toBe('')
+    expect(ctx1.req.href).toBe('https://example.com/store/shoes')
+    expect(Object.keys(ctx1.req.query)).toHaveLength(0)
+
+    const ctx2 = app.createContext(new Request('https://example.com/store/shoes?page=1'))
+    ctx2.req.search = undefined
+    expect(ctx2.req.search).toBe('')
+    expect(ctx2.req.href).toBe('https://example.com/store/shoes')
+    expect(Object.keys(ctx2.req.query)).toHaveLength(0)
+  })
+
   it('should preserve other URL components when setting search', () => {
     const app = new Hoa()
     const request = new Request('https://example.com:8080/api/v1/users?old=param')

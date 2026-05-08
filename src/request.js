@@ -201,7 +201,7 @@ export default class HoaRequest {
    * @public
    */
   set search (val) {
-    this.url.search = val.startsWith('?') ? val : (val ? `?${val}` : '')
+    this.url.search = val ?? ''
     this._query = null
   }
 
