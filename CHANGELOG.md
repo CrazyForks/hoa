@@ -1,3 +1,19 @@
+## v0.4.0 / 2026-05-09
+
+- feat: add SKILL.md
+- fix: improve Content-Length validation in request.length getter
+- fix: normalize Content-Type in response.type getter with trim and lowercase
+- fix: correct HTTP status code validation range from 100-1000 to 100-599
+- fix: return empty string for empty query objects in stringifyQueryToString
+- docs: clarify middleware array flattening behavior in compose function
+- fix: export status code redirect empty mapping constants types
+- fix(request): should clear search when set to null or undefined
+- fix(response): should return null for invalid Content-Length header
+- perf(response): hoist TextEncoder to a module-level singleton
+- perf(request): hoist client IP header list to a module-level constant
+- fix(types): rename HoaError to HttpErrorOptions for naming consistency
+- chore(test): add content-length above 2 GB
+
 ## v0.3.5 / 2026-02-03
 
 - hotfix: package.json exports
