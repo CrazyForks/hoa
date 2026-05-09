@@ -35,7 +35,7 @@ An app is `new Hoa()`. You register middlewares with `app.use(fn)` and expose `a
 - `ctx.req` — a `HoaRequest` wrapper (URL parts, headers, body readers, IP).
 - `ctx.res` — a `HoaResponse` builder (status, headers, body, redirect).
 - `ctx.app` — the `Hoa` instance.
-- `ctx.throw(status, message?, options?)` / `ctx.assert(value, status, message?)` — throw `HttpError`.
+- `ctx.throw(status, message?, options?)` / `ctx.assert(value, status, message?, options?)` — throw `HttpError`.
 
 You build the response by mutating `ctx.res` (`ctx.res.status`, `ctx.res.body`, `ctx.res.type`, headers, etc.). After the middleware stack resolves, Hoa synthesizes a Web Standard `Response` from `ctx.res`.
 
@@ -146,8 +146,8 @@ Instance properties:
 
 Methods:
 
-- `ctx.throw(status: number, message?: string | HoaError, options?: HoaError): never` — throw an `HttpError`.
-- `ctx.assert<T>(value: T, status: number, message?: string | HoaError, options?: HoaError): asserts value is NonNullable<T>` — throws `HttpError` if `value` is falsy.
+- `ctx.throw(status: number, message?: string, options?: HttpErrorOptions): never` (also `ctx.throw(status, options)`) — throw an `HttpError`.
+- `ctx.assert<T>(value: T, status: number, message?: string, options?: HttpErrorOptions): asserts value is NonNullable<T>` (also `ctx.assert(value, status, options)`) — throws `HttpError` if `value` is falsy.
 - `ctx.onerror(err: unknown): Response` — default error → `Response` builder (override via `HoaContext` prototype).
 - `ctx.toJSON(): HoaContextJson` — `{ app, req, res }` snapshot.
 - `get ctx.response: Response` — synthesize the final Web Standard `Response` from `ctx.res`.
