@@ -1,35 +1,28 @@
-interface HoaAppJson {
+export interface HoaAppJson {
   name: string;
 }
 
-interface HoaContextJson {
+export interface HoaContextJson {
   app: HoaAppJson;
   req: HoaRequestJson;
   res: HoaResponseJson;
 }
 
-interface HoaRequestJson {
+export interface HoaRequestJson {
   method: string;
   url: string;
   headers: Record<string, string>;
 }
 
-interface HoaResponseJson {
+export interface HoaResponseJson {
   status: number;
   statusText: string;
   headers: Record<string, string>;
 }
 
-interface HoaError {
-  message?: string;
-  cause?: unknown;
-  expose?: boolean;
-  headers?: Headers | Record<string, string> | Iterable<readonly [string, string]>;
-}
-
 export type HoaExtension = (app: Hoa) => void;
 
-export type HoaMiddleware = (ctx: HoaContext, next?: () => Promise<void>) => Promise<void> | void;
+export type HoaMiddleware = (ctx: HoaContext, next: () => Promise<void>) => Promise<void> | void;
 
 export declare class Hoa {
   constructor(options?: { name?: string });
@@ -61,8 +54,10 @@ export declare class HoaContext {
   env?: any;
   executionCtx?: any;
   state: Record<string, any>;
-  throw(status: number, message?: string | HoaError, options?: HoaError): never;
-  assert<T>(value: T, status: number, message?: string | HoaError, options?: HoaError): asserts value is NonNullable<T>;
+  throw(status: number, message?: string, options?: HttpErrorOptions): never;
+  throw(status: number, options: HttpErrorOptions): never;
+  assert<T>(value: T, status: number, message?: string, options?: HttpErrorOptions): asserts value is NonNullable<T>;
+  assert<T>(value: T, status: number, options: HttpErrorOptions): asserts value is NonNullable<T>;
   onerror(err: unknown): Response;
   toJSON(): HoaContextJson;
   readonly response: Response;
@@ -139,7 +134,7 @@ export declare class HoaRequest {
   toJSON(): HoaRequestJson;
 }
 
-type HoaResponseBody =
+export type HoaResponseBody =
   | string
   | Blob
   | ArrayBuffer
@@ -190,12 +185,16 @@ export declare class HoaResponse {
   toJSON(): HoaResponseJson;
 }
 
+export interface HttpErrorOptions {
+  message?: string;
+  cause?: unknown;
+  expose?: boolean;
+  headers?: Headers | Record<string, string> | Iterable<readonly [string, string]>;
+}
+
 export declare class HttpError extends Error {
-  constructor(
-    status: number,
-    message?: string | HoaError,
-    options?: HoaError
-  );
+  constructor(status: number, message?: string, options?: HttpErrorOptions);
+  constructor(status: number, options: HttpErrorOptions);
   readonly name: string;
   readonly status: number;
   readonly statusCode: number;
