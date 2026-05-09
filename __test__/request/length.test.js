@@ -63,4 +63,16 @@ describe('req.length', () => {
     ctx.req.set('content-length', '')
     expect(ctx.req.length).toBeNull()
   })
+
+  it('should accept content-length above 2 GB but within Number.MAX_SAFE_INTEGER', () => {
+    const app = new Hoa()
+    const request = new Request('https://example.com/')
+    const ctx = app.createContext(request)
+    // 2 GiB exactly (a common large-upload boundary)
+    ctx.req.set('content-length', '2147483648')
+    expect(ctx.req.length).toBe(2147483648)
+    // Just below MAX_SAFE_INTEGER (9007199254740991)
+    ctx.req.set('content-length', '9007199254740990')
+    expect(ctx.req.length).toBe(9007199254740990)
+  })
 })
