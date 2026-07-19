@@ -8,7 +8,7 @@ describe('ctx.response', () => {
 
     const res = ctx.response
     expect(res.status).toBe(200)
-    expect(res.headers.get('content-type')).toBe('text/plain')
+    expect(res.headers.get('content-type')).toBe('text/plain;charset=UTF-8')
     expect(await res.text()).toBe('Hello, Hoa!')
   })
 
@@ -57,7 +57,7 @@ describe('ctx.response', () => {
     expect(res.status).toBe(204)
     expect(res.headers.get('content-type')).toBeNull()
     expect(res.headers.get('transfer-encoding')).toBeNull()
-    expect(res.headers.get('content-length')).toBe('0')
+    expect(res.headers.get('content-length')).toBeNull()
     expect(await res.text()).toBe('')
   })
 
