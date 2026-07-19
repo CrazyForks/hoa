@@ -88,8 +88,19 @@ export default class HoaContext {
     res.status = status
     res.body = msg
 
+    // empty-body statuses (204/205/304) must not include a body
+    if (statusEmptyMapping[res.status]) {
+      res.body = null
+      return new Response(null, {
+        status: res.status,
+        statusText: res.statusText,
+        headers: res._headers
+      })
+    }
+
     return new Response(res.body, {
       status: res.status,
+      statusText: res.statusText,
       headers: res._headers
     })
   }

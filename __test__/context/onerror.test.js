@@ -105,6 +105,22 @@ describe('ctx.onerror(err)', () => {
     expect(assertionRan).toBe(true)
   })
 
+  it('should not include a body for empty-body error status (304)', async () => {
+    const app = new Hoa()
+
+    app.use(() => {
+      const err = new Error('boom')
+      err.status = 304
+      err.expose = true
+      throw err
+    })
+
+    const res = await app.fetch(new Request('https://example.com/'))
+    expect(res.status).toBe(304)
+    expect(res.headers.get('content-type')).toBeNull()
+    expect(await res.text()).toBe('')
+  })
+
   it('should handle invalid error status fields', async () => {
     const app = new Hoa()
 
