@@ -1,3 +1,8 @@
+## v0.4.1 / 2026-07-19
+
+- fix: response.test.js
+- fix(context): prevent invalid body on empty-body error status (204/205/304)
+
 ## v0.4.0 / 2026-05-09
 
 - feat: add SKILL.md
